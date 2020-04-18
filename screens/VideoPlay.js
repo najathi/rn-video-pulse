@@ -9,6 +9,7 @@ import TouchableNative from '../components/TouchableNative';
 const VideoPlay = props => {
 
 	const [shouldPlay, setShouldPlay] = useState(false);
+	const [openControl, setOpenControl] = useState(true);
 
 	const handlePlayAndPause = () => {
 		setShouldPlay(prev => !prev);
@@ -17,7 +18,7 @@ const VideoPlay = props => {
 	return (
 		<View>
 			<View style={styles.videoContainer}>
-				<TouchableWithoutFeedback onPress={handlePlayAndPause}>
+				<TouchableWithoutFeedback onPress={() => setOpenControl(prev => !prev)}>
 					<Video
 						source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
 						rate={1.0}
@@ -28,9 +29,9 @@ const VideoPlay = props => {
 						style={styles.video}
 					/>
 				</TouchableWithoutFeedback>
-				<View
+				{openControl ? <View
 					style={styles.controlButton}>
-					{!shouldPlay ? <PulseWrap color='#5AFC04' numPulses={3} diameter={150} speed={20} duration={2000} /> : null}
+					{!shouldPlay && <PulseWrap color='#5AFC04' numPulses={3} diameter={150} speed={20} duration={2000} />}
 					<View style={styles.playButton}>
 						<TouchableNative onPressed={handlePlayAndPause}>
 							<MaterialIcons
@@ -40,7 +41,7 @@ const VideoPlay = props => {
 							/>
 						</TouchableNative>
 					</View>
-				</View>
+				</View> : null}
 			</View>
 		</View >
 	);
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 	},
 	playButton: {
-		backgroundColor: '#ccc',
+		backgroundColor: '#bbb',
 		borderRadius: 50,
 	}
 });
